@@ -1,84 +1,82 @@
 package org.assessment.entity;
 
-import lombok.*;
-import org.assessment.enums.AssignmentStatus;
-import org.assessment.enums.AssignmentType;
-import org.assessment.enums.DifficultyLevel;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-@DynamoDbBean
-@Getter
-@Setter
+import org.assessment.enums.*;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamoDbBean
+// Table: "assignments" | Partition key: assignmentId
 public class Assignment {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
-    private String id;           // UUID as String (DynamoDB partition key)
-
+    private String assignmentId;
     private String title;
     private String description;
     private String courseId;
-    private String instructorId;
-
-    private String assignmentType;    // stored as String (enum name)
-    private String difficultyLevel;
-    private String status;
-
-    private Double totalMarks;
-    private Double passingMarks;
-    private String dueDate;           // ISO string — LocalDateTime not natively supported by DynamoDB mapper
-
-    private Boolean allowLateSubmission;
-    private String attachmentUrl;
-
-    private String createdAt;
-    private String updatedAt;
+    private String courseName;
+    private Float totalMarks;
+    private Float passMarks;
+    private AssignmentType assignmentType;
+    private DifficultyLevel difficultyLevel;
+    private AssignmentStatus status;
+    private LocalDate dueDate;
+    private String assignmentFileUrl;
+    private String createdBy;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @DynamoDbPartitionKey
-    public String getId() { return id; }
+    public String getAssignmentId() { return assignmentId; }
+    public void setAssignmentId(String assignmentId) { this.assignmentId = assignmentId; }
 
-    // Convenience helpers for enum/datetime conversion
-    public AssignmentType getAssignmentTypeEnum() {
-        return assignmentType != null ? AssignmentType.valueOf(assignmentType) : null;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setAssignmentTypeEnum(AssignmentType type) {
-        this.assignmentType = type != null ? type.name() : null;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public AssignmentStatus getStatusEnum() {
-        return status != null ? AssignmentStatus.valueOf(status) : null;
-    }
+    public String getCourseId() { return courseId; }
+    public void setCourseId(String courseId) { this.courseId = courseId; }
 
-    public void setStatusEnum(AssignmentStatus s) {
-        this.status = s != null ? s.name() : null;
-    }
+    public String getCourseName() { return courseName; }
+    public void setCourseName(String courseName) { this.courseName = courseName; }
 
-    public DifficultyLevel getDifficultyLevelEnum() {
-        return difficultyLevel != null ? DifficultyLevel.valueOf(difficultyLevel) : null;
-    }
+    public Float getTotalMarks() { return totalMarks; }
+    public void setTotalMarks(Float totalMarks) { this.totalMarks = totalMarks; }
 
-    public void setDifficultyLevelEnum(DifficultyLevel level) {
-        this.difficultyLevel = level != null ? level.name() : null;
-    }
+    public Float getPassMarks() { return passMarks; }
+    public void setPassMarks(Float passMarks) { this.passMarks = passMarks; }
 
-    public LocalDateTime getDueDateAsLocalDateTime() {
-        return dueDate != null ? LocalDateTime.parse(dueDate, FORMATTER) : null;
-    }
+    public AssignmentType getAssignmentType() { return assignmentType; }
+    public void setAssignmentType(AssignmentType assignmentType) { this.assignmentType = assignmentType; }
 
-    public void setDueDateFromLocalDateTime(LocalDateTime dt) {
-        this.dueDate = dt != null ? dt.format(FORMATTER) : null;
-    }
+    public DifficultyLevel getDifficultyLevel() { return difficultyLevel; }
+    public void setDifficultyLevel(DifficultyLevel difficultyLevel) { this.difficultyLevel = difficultyLevel; }
 
-    public void prePersist() {
-        String now = LocalDateTime.now().format(FORMATTER);
-        if (createdAt == null) createdAt = now;
-        updatedAt = now;
-    }
+    public AssignmentStatus getStatus() { return status; }
+    public void setStatus(AssignmentStatus status) { this.status = status; }
+
+    public LocalDate getDueDate() { return dueDate; }
+    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+
+    public String getAssignmentFileUrl() { return assignmentFileUrl; }
+    public void setAssignmentFileUrl(String assignmentFileUrl) { this.assignmentFileUrl = assignmentFileUrl; }
+
+    public String getCreatedBy() { return createdBy; }
+    public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }

@@ -26,12 +26,12 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.reviewSubmission(request));
     }
 
-    @GetMapping("/submission/{submissionId}")
+    @GetMapping("/submissions/{submissionId}")
     public ResponseEntity<ReviewResponse> getReviewBySubmission(@PathVariable String submissionId) {
         return ResponseEntity.ok(reviewService.getReviewBySubmission(submissionId));
     }
 
-    @GetMapping("/reviewer/{reviewerId}")
+    @GetMapping("/reviewers/{reviewerId}")
     @PreAuthorize("hasRole('INSTRUCTOR') or hasRole('ADMIN')")
     public ResponseEntity<List<ReviewResponse>> getReviewsByReviewer(@PathVariable String reviewerId) {
         return ResponseEntity.ok(reviewService.getReviewsByReviewer(reviewerId));

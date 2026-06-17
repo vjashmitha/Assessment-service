@@ -1,65 +1,45 @@
 package org.assessment.entity;
 
-import lombok.*;
-import org.assessment.enums.ResultStatus;
-import org.assessment.enums.SubmissionStatus;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-@DynamoDbBean
-@Getter
-@Setter
+import org.assessment.enums.SubmissionStatus;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamoDbBean
+// Table: "submissions" | Partition key: submissionId
 public class Submission {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
-    private String id;           // UUID as String (DynamoDB partition key)
-
+    private String submissionId;
     private String assignmentId;
-    private String studentId;
-    private String content;
-    private String fileUrl;
-
-    private String status;        // SubmissionStatus name
-    private String resultStatus;  // ResultStatus name
-
-    private Double obtainedMarks;
-
-    private String submittedAt;
-    private String createdAt;
-    private String updatedAt;
+    private String learnerId;
+    private String submissionFileUrl;
+    private SubmissionStatus status;
+    private LocalDateTime submittedAt;
 
     @DynamoDbPartitionKey
-    public String getId() { return id; }
+    public String getSubmissionId() { return submissionId; }
+    public void setSubmissionId(String submissionId) { this.submissionId = submissionId; }
 
-    // Enum helpers
-    public SubmissionStatus getStatusEnum() {
-        return status != null ? SubmissionStatus.valueOf(status) : null;
-    }
+    public String getAssignmentId() { return assignmentId; }
+    public void setAssignmentId(String assignmentId) { this.assignmentId = assignmentId; }
 
-    public void setStatusEnum(SubmissionStatus s) {
-        this.status = s != null ? s.name() : null;
-    }
+    public String getLearnerId() { return learnerId; }
+    public void setLearnerId(String learnerId) { this.learnerId = learnerId; }
 
-    public ResultStatus getResultStatusEnum() {
-        return resultStatus != null ? ResultStatus.valueOf(resultStatus) : null;
-    }
+    public String getSubmissionFileUrl() { return submissionFileUrl; }
+    public void setSubmissionFileUrl(String submissionFileUrl) { this.submissionFileUrl = submissionFileUrl; }
 
-    public void setResultStatusEnum(ResultStatus r) {
-        this.resultStatus = r != null ? r.name() : null;
-    }
+    public SubmissionStatus getStatus() { return status; }
+    public void setStatus(SubmissionStatus status) { this.status = status; }
 
-    public void prePersist() {
-        String now = LocalDateTime.now().format(FORMATTER);
-        if (createdAt == null) {
-            createdAt = now;
-            submittedAt = now;
-        }
-        updatedAt = now;
-    }
+    public LocalDateTime getSubmittedAt() { return submittedAt; }
+    public void setSubmittedAt(LocalDateTime submittedAt) { this.submittedAt = submittedAt; }
 }

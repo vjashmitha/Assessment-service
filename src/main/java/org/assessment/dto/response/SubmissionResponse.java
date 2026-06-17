@@ -11,11 +11,13 @@ public class SubmissionResponse {
     private String id;
     private String assignmentId;
     private String studentId;
+    private String studentName;
     private String content;
     private String fileUrl;
     private SubmissionStatus status;
     private ResultStatus resultStatus;
-    private Double obtainedMarks;
+    private Float obtainedMarks;
+    private String feedback;
     private String submittedAt;
     private String createdAt;
     private String updatedAt;

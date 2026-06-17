@@ -33,17 +33,17 @@ public class SubmissionController {
         return ResponseEntity.ok(submissionService.getSubmissionById(id));
     }
 
-    @GetMapping("/assignment/{assignmentId}")
+    @GetMapping("/assignments/{assignmentId}")
     public ResponseEntity<List<SubmissionResponse>> getSubmissionsByAssignment(@PathVariable String assignmentId) {
         return ResponseEntity.ok(submissionService.getSubmissionsByAssignment(assignmentId));
     }
 
-    @GetMapping("/student/{studentId}")
+    @GetMapping("/students/{studentId}")
     public ResponseEntity<List<SubmissionResponse>> getSubmissionsByStudent(@PathVariable String studentId) {
         return ResponseEntity.ok(submissionService.getSubmissionsByStudent(studentId));
     }
 
-    @GetMapping("/assignment/{assignmentId}/student/{studentId}")
+    @GetMapping("/assignments/{assignmentId}/students/{studentId}")
     public ResponseEntity<SubmissionResponse> getSubmissionByAssignmentAndStudent(
             @PathVariable String assignmentId,
             @PathVariable String studentId) {

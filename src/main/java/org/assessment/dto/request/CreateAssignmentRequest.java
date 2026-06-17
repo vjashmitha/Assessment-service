@@ -6,7 +6,7 @@ import lombok.Data;
 import org.assessment.enums.AssignmentType;
 import org.assessment.enums.DifficultyLevel;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class CreateAssignmentRequest {
@@ -20,17 +20,14 @@ public class CreateAssignmentRequest {
     private String courseId;
 
     @NotNull
+    private Float totalMarks;
+
+    @NotNull
+    private Float passMarks;
+
     private AssignmentType assignmentType;
 
-    @NotNull
     private DifficultyLevel difficultyLevel;
 
-    @NotNull
-    private Double totalMarks;
-
-    private Double passingMarks;
-
-    private LocalDateTime dueDate;
-
-    private Boolean allowLateSubmission = false;
+    private LocalDate dueDate;
 }

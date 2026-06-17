@@ -7,19 +7,19 @@ spring:
 
 aws:
   region: us-east-1
-  access-key: your-access-key
-  secret-key: your-secret-key
+  access-key: ${AWS_ACCESS_KEY}
+  secret-key: ${AWS_SECRET_KEY}
   s3:
-    bucket-name: assessment-files
+    bucket-name: ${AWS_S3_BUCKET_NAME}
 
 dynamodb:
   table:
     assignments: assignments
     submissions: submissions
-    reviews: assignment-reviews
+    reviews: reviews
 
 jwt:
-  secret: your-jwt-secret-key
+  secret: ${JWT_SECRET}
   expiration: 86400000
 
 feign:

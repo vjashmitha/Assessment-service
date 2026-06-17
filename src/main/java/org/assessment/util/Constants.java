@@ -9,6 +9,7 @@ public class Constants {
     public static final String REVIEW_BASE_URL = API_VERSION + "/reviews";
     public static final String DASHBOARD_BASE_URL = API_VERSION + "/dashboard";
     public static final String REPORT_BASE_URL = API_VERSION + "/reports";
+    public static final String STUDENT_ASSIGNMENTS_URL = API_VERSION + "/students/{studentId}/assignments";
 
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String AUTHORIZATION_HEADER = "Authorization";

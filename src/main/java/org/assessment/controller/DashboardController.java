@@ -14,17 +14,17 @@ public class DashboardController {
 
     private final DashboardService dashboardService;
 
-    @GetMapping("/instructor/{instructorId}")
+    @GetMapping("/instructors/{instructorId}")
     public ResponseEntity<DashboardResponse> getInstructorDashboard(@PathVariable String instructorId) {
         return ResponseEntity.ok(dashboardService.getInstructorDashboard(instructorId));
     }
 
-    @GetMapping("/student/{studentId}")
+    @GetMapping("/students/{studentId}")
     public ResponseEntity<DashboardResponse> getStudentDashboard(@PathVariable String studentId) {
         return ResponseEntity.ok(dashboardService.getStudentDashboard(studentId));
     }
 
-    @GetMapping("/course/{courseId}")
+    @GetMapping("/courses/{courseId}")
     public ResponseEntity<DashboardResponse> getCourseStats(@PathVariable String courseId) {
         return ResponseEntity.ok(dashboardService.getCourseAssignmentStats(courseId));
     }

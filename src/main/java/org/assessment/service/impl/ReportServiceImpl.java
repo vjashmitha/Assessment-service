@@ -4,17 +4,22 @@ import lombok.RequiredArgsConstructor;
 import org.assessment.dto.response.ReportResponse;
 import org.assessment.dto.response.SubmissionResponse;
 import org.assessment.entity.Assignment;
+import org.assessment.entity.Review;
+import org.assessment.entity.Submission;
 import org.assessment.enums.ResultStatus;
 import org.assessment.enums.SubmissionStatus;
 import org.assessment.exception.ResourceNotFoundException;
 import org.assessment.mapper.SubmissionMapper;
 import org.assessment.repository.AssignmentRepository;
+import org.assessment.repository.ReviewRepository;
 import org.assessment.repository.SubmissionRepository;
 import org.assessment.service.ReportService;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +28,7 @@ public class ReportServiceImpl implements ReportService {
 
     private final AssignmentRepository assignmentRepository;
     private final SubmissionRepository submissionRepository;
+    private final ReviewRepository reviewRepository;
     private final SubmissionMapper submissionMapper;
 
     @Override
@@ -30,39 +36,70 @@ public class ReportServiceImpl implements ReportService {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Assignment not found with id: " + assignmentId));
 
-        var submissions = submissionRepository.findByAssignmentId(assignmentId);
-        List<SubmissionResponse> submissionResponses = submissions.stream()
-                .map(submissionMapper::toResponse).collect(Collectors.toList());
+        List<Submission> submissions = submissionRepository.findByAssignmentId(assignmentId);
+        List<SubmissionResponse> submissionResponses = new ArrayList<>();
 
-        long submittedCount = submissions.stream()
-                .filter(s -> !SubmissionStatus.PENDING.name().equals(s.getStatus())).count();
-        long gradedCount = submissions.stream()
-                .filter(s -> SubmissionStatus.GRADED.name().equals(s.getStatus())).count();
-        long pendingCount = submissions.size() - submittedCount;
-        long passCount = submissions.stream()
-                .filter(s -> ResultStatus.PASS.name().equals(s.getResultStatus())).count();
-        long failCount = submissions.stream()
-                .filter(s -> ResultStatus.FAIL.name().equals(s.getResultStatus())).count();
-        double averageScore = submissions.stream()
-                .filter(s -> s.getObtainedMarks() != null)
-                .mapToDouble(s -> s.getObtainedMarks()).average().orElse(0.0);
-        double highestScore = submissions.stream()
-                .filter(s -> s.getObtainedMarks() != null)
-                .mapToDouble(s -> s.getObtainedMarks()).max().orElse(0.0);
-        double lowestScore = submissions.stream()
-                .filter(s -> s.getObtainedMarks() != null)
-                .mapToDouble(s -> s.getObtainedMarks()).min().orElse(0.0);
+        long submittedCount = 0;
+        long gradedCount = 0;
+        long pendingCount = 0;
+        long passCount = 0;
+        long failCount = 0;
+        float totalMarks = 0.0f;
+        float highestScore = 0.0f;
+        float lowestScore = Float.MAX_VALUE;
+        boolean hasGrades = false;
+
+        for (Submission submission : submissions) {
+            Optional<Review> reviewOpt = reviewRepository.findBySubmissionId(submission.getSubmissionId());
+            Review review = reviewOpt.orElse(null);
+            
+            submissionResponses.add(submissionMapper.toResponse(submission, review));
+
+            if (submission.getStatus() != SubmissionStatus.NOT_SUBMITTED) {
+                submittedCount++;
+            }
+
+            if (submission.getStatus() == SubmissionStatus.REVIEWED) {
+                gradedCount++;
+            } else {
+                pendingCount++;
+            }
+
+            if (review != null) {
+                if (review.getResultStatus() == ResultStatus.PASS) {
+                    passCount++;
+                } else if (review.getResultStatus() == ResultStatus.FAIL) {
+                    failCount++;
+                }
+                if (review.getMarksAwarded() != null) {
+                    hasGrades = true;
+                    float marks = review.getMarksAwarded();
+                    totalMarks += marks;
+                    if (marks > highestScore) {
+                        highestScore = marks;
+                    }
+                    if (marks < lowestScore) {
+                        lowestScore = marks;
+                    }
+                }
+            }
+        }
+
+        float averageScore = (hasGrades && gradedCount > 0) ? (totalMarks / gradedCount) : 0.0f;
+        float finalLowestScore = hasGrades ? lowestScore : 0.0f;
 
         return ReportResponse.builder()
                 .assignmentId(assignmentId)
                 .assignmentTitle(assignment.getTitle())
+                .dueDate(assignment.getDueDate() != null ? assignment.getDueDate().toString() : null)
+                .status(assignment.getStatus())
                 .totalStudents((long) submissions.size())
                 .submittedCount(submittedCount)
                 .pendingCount(pendingCount)
                 .gradedCount(gradedCount)
                 .averageScore(averageScore)
                 .highestScore(highestScore)
-                .lowestScore(lowestScore)
+                .lowestScore(finalLowestScore)
                 .passCount(passCount)
                 .failCount(failCount)
                 .submissions(submissionResponses)
@@ -72,7 +109,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<ReportResponse> getCourseReport(String courseId) {
         return assignmentRepository.findByCourseId(courseId).stream()
-                .map(a -> getAssignmentReport(a.getId()))
+                .map(a -> getAssignmentReport(a.getAssignmentId()))
                 .collect(Collectors.toList());
     }
 
@@ -84,10 +121,10 @@ public class ReportServiceImpl implements ReportService {
         report.getSubmissions().forEach(s ->
                 csv.append(s.getId()).append(",")
                         .append(s.getStudentId()).append(",")
-                        .append(s.getStatus()).append(",")
-                        .append(s.getObtainedMarks()).append(",")
-                        .append(s.getResultStatus()).append(",")
-                        .append(s.getSubmittedAt()).append("\n")
+                        .append(s.getStatus() != null ? s.getStatus().name() : "").append(",")
+                        .append(s.getObtainedMarks() != null ? s.getObtainedMarks() : "").append(",")
+                        .append(s.getResultStatus() != null ? s.getResultStatus().name() : "").append(",")
+                        .append(s.getSubmittedAt() != null ? s.getSubmittedAt() : "").append("\n")
         );
         return csv.toString().getBytes(StandardCharsets.UTF_8);
     }

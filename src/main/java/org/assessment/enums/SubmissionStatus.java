@@ -1,9 +1,9 @@
 package org.assessment.enums;
 
 public enum SubmissionStatus {
-    PENDING,
+
+    NOT_SUBMITTED,
     SUBMITTED,
-    LATE,
-    GRADED,
-    RESUBMITTED
+    UNDER_REVIEW,
+    REVIEWED
 }

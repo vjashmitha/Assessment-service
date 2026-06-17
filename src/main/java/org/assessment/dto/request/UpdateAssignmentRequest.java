@@ -5,7 +5,7 @@ import org.assessment.enums.AssignmentStatus;
 import org.assessment.enums.AssignmentType;
 import org.assessment.enums.DifficultyLevel;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class UpdateAssignmentRequest {
@@ -20,11 +20,11 @@ public class UpdateAssignmentRequest {
 
     private AssignmentStatus status;
 
-    private Double totalMarks;
+    private Float totalMarks;
 
-    private Double passingMarks;
+    private Float passMarks;
 
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
     private Boolean allowLateSubmission;
 }

@@ -1,11 +1,11 @@
 package org.assessment.repository;
 
 import org.assessment.entity.Assignment;
-import org.assessment.enums.AssignmentStatus;
 import org.springframework.stereotype.Repository;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
+import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
-import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,24 +16,27 @@ public class AssignmentRepository {
 
     private final DynamoDbTable<Assignment> table;
 
-    public AssignmentRepository(DynamoDbTable<Assignment> assignmentTable) {
-        this.table = assignmentTable;
+    public AssignmentRepository(DynamoDbEnhancedClient enhancedClient) {
+        // Table name "assignments" and partition key "assignmentId"
+        // are defined directly in Assignment entity via @DynamoDbTableName and @DynamoDbPartitionKey
+        this.table = enhancedClient.table("assignments", TableSchema.fromBean(Assignment.class));
     }
 
     public Assignment save(Assignment assignment) {
-        assignment.prePersist();
         table.putItem(assignment);
         return assignment;
     }
 
-    public Optional<Assignment> findById(String id) {
-        Assignment result = table.getItem(Key.builder().partitionValue(id).build());
-        return Optional.ofNullable(result);
+    public Optional<Assignment> findById(String assignmentId) {
+        return Optional.ofNullable(table.getItem(Key.builder().partitionValue(assignmentId).build()));
     }
 
     public List<Assignment> findAll() {
-        return table.scan(ScanEnhancedRequest.builder().build())
-                .items().stream().collect(Collectors.toList());
+        return table.scan().items().stream().collect(Collectors.toList());
+    }
+
+    public void deleteById(String assignmentId) {
+        table.deleteItem(Key.builder().partitionValue(assignmentId).build());
     }
 
     public List<Assignment> findByCourseId(String courseId) {
@@ -42,23 +45,9 @@ public class AssignmentRepository {
                 .collect(Collectors.toList());
     }
 
-    public List<Assignment> findByInstructorId(String instructorId) {
+    public List<Assignment> findByCreatedBy(String createdBy) {
         return table.scan().items().stream()
-                .filter(a -> instructorId.equals(a.getInstructorId()))
+                .filter(a -> createdBy.equals(a.getCreatedBy()))
                 .collect(Collectors.toList());
-    }
-
-    public List<Assignment> findByCourseIdAndStatus(String courseId, AssignmentStatus status) {
-        return table.scan().items().stream()
-                .filter(a -> courseId.equals(a.getCourseId()) && status.name().equals(a.getStatus()))
-                .collect(Collectors.toList());
-    }
-
-    public void delete(Assignment assignment) {
-        table.deleteItem(assignment);
-    }
-
-    public long count() {
-        return table.scan().items().stream().count();
     }
 }

@@ -19,19 +19,19 @@ public class ReportController {
 
     private final ReportService reportService;
 
-    @GetMapping("/assignment/{assignmentId}")
+    @GetMapping("/assignments/{assignmentId}")
     @PreAuthorize("hasRole('INSTRUCTOR') or hasRole('ADMIN')")
     public ResponseEntity<ReportResponse> getAssignmentReport(@PathVariable String assignmentId) {
         return ResponseEntity.ok(reportService.getAssignmentReport(assignmentId));
     }
 
-    @GetMapping("/course/{courseId}")
+    @GetMapping("/courses/{courseId}")
     @PreAuthorize("hasRole('INSTRUCTOR') or hasRole('ADMIN')")
     public ResponseEntity<List<ReportResponse>> getCourseReport(@PathVariable String courseId) {
         return ResponseEntity.ok(reportService.getCourseReport(courseId));
     }
 
-    @GetMapping("/assignment/{assignmentId}/export")
+    @GetMapping("/assignments/{assignmentId}/export")
     @PreAuthorize("hasRole('INSTRUCTOR') or hasRole('ADMIN')")
     public ResponseEntity<byte[]> exportReportAsCsv(@PathVariable String assignmentId) {
         byte[] csv = reportService.exportReportAsCsv(assignmentId);

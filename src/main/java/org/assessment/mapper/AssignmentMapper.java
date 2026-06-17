@@ -6,47 +6,53 @@ import org.assessment.entity.Assignment;
 import org.assessment.enums.AssignmentStatus;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
 public class AssignmentMapper {
 
     public Assignment toEntity(CreateAssignmentRequest request, String instructorId) {
+        if (request == null) {
+            return null;
+        }
         Assignment assignment = new Assignment();
-        assignment.setId(UUID.randomUUID().toString());
+        assignment.setAssignmentId(UUID.randomUUID().toString());
         assignment.setTitle(request.getTitle());
         assignment.setDescription(request.getDescription());
         assignment.setCourseId(request.getCourseId());
-        assignment.setInstructorId(instructorId);
-        assignment.setAssignmentTypeEnum(request.getAssignmentType());
-        assignment.setDifficultyLevelEnum(request.getDifficultyLevel());
-        assignment.setStatusEnum(AssignmentStatus.DRAFT);
+        assignment.setCreatedBy(instructorId);
+        assignment.setAssignmentType(request.getAssignmentType());
+        assignment.setDifficultyLevel(request.getDifficultyLevel());
+        assignment.setStatus(AssignmentStatus.DRAFT);
         assignment.setTotalMarks(request.getTotalMarks());
-        assignment.setPassingMarks(request.getPassingMarks());
-        assignment.setAllowLateSubmission(request.getAllowLateSubmission());
-        if (request.getDueDate() != null) {
-            assignment.setDueDateFromLocalDateTime(request.getDueDate());
-        }
+        assignment.setPassMarks(request.getPassMarks());
+        assignment.setDueDate(request.getDueDate());
+        assignment.setCreatedAt(LocalDateTime.now());
+        assignment.setUpdatedAt(LocalDateTime.now());
         return assignment;
     }
 
     public AssignmentResponse toResponse(Assignment assignment) {
+        if (assignment == null) {
+            return null;
+        }
         return AssignmentResponse.builder()
-                .id(assignment.getId())
+                .assignmentId(assignment.getAssignmentId())
                 .title(assignment.getTitle())
                 .description(assignment.getDescription())
                 .courseId(assignment.getCourseId())
-                .instructorId(assignment.getInstructorId())
-                .assignmentType(assignment.getAssignmentTypeEnum())
-                .difficultyLevel(assignment.getDifficultyLevelEnum())
-                .status(assignment.getStatusEnum())
+                .courseName(assignment.getCourseName())
                 .totalMarks(assignment.getTotalMarks())
-                .passingMarks(assignment.getPassingMarks())
-                .dueDate(assignment.getDueDateAsLocalDateTime())
-                .allowLateSubmission(assignment.getAllowLateSubmission())
-                .attachmentUrl(assignment.getAttachmentUrl())
-                .createdAt(assignment.getCreatedAt())
-                .updatedAt(assignment.getUpdatedAt())
+                .passMarks(assignment.getPassMarks())
+                .assignmentType(assignment.getAssignmentType())
+                .difficultyLevel(assignment.getDifficultyLevel())
+                .status(assignment.getStatus())
+                .dueDate(assignment.getDueDate() != null ? assignment.getDueDate().toString() : null)
+                .assignmentFileUrl(assignment.getAssignmentFileUrl())
+                .createdBy(assignment.getCreatedBy())
+                .createdAt(assignment.getCreatedAt() != null ? assignment.getCreatedAt().toString() : null)
+                .updatedAt(assignment.getUpdatedAt() != null ? assignment.getUpdatedAt().toString() : null)
                 .build();
     }
 }

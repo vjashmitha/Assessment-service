@@ -13,5 +13,5 @@ public class ReviewAssignmentRequest {
     private String feedback;
 
     @NotNull
-    private Double marksAwarded;
+    private Float marksAwarded;
 }

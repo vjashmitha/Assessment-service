@@ -1,13 +1,25 @@
 package org.assessment.util;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class CommonUtil {
     private CommonUtil() {}
 
+    /**
+     * Returns the current user ID.
+     * First checks the Spring SecurityContext (set by HeaderAuthFilter),
+     * then falls back to the raw X-User-Id header.
+     */
     public static String extractUserIdFromRequest() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof String principal && !principal.isBlank()) {
+            return principal;
+        }
+        // Fallback: read directly from header
         HttpServletRequest request = getCurrentRequest();
         String userId = request.getHeader(Constants.USER_ID_HEADER);
         if (userId == null || userId.isBlank()) {
@@ -17,6 +29,12 @@ public class CommonUtil {
     }
 
     public static String extractUserRoleFromRequest() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getAuthorities() != null && !auth.getAuthorities().isEmpty()) {
+            String authority = auth.getAuthorities().iterator().next().getAuthority();
+            // Strip the ROLE_ prefix added by HeaderAuthFilter
+            return authority.startsWith("ROLE_") ? authority.substring(5) : authority;
+        }
         HttpServletRequest request = getCurrentRequest();
         return request.getHeader(Constants.USER_ROLE_HEADER);
     }

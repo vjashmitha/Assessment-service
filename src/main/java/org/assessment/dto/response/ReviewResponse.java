@@ -11,7 +11,7 @@ public class ReviewResponse {
     private String submissionId;
     private String reviewerId;
     private String feedback;
-    private Double marksAwarded;
+    private Float marksAwarded;
     private ResultStatus resultStatus;
     private String reviewedAt;
     private String createdAt;

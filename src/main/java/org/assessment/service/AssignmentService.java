@@ -8,11 +8,18 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface AssignmentService {
-    AssignmentResponse createAssignment(CreateAssignmentRequest request, MultipartFile attachment);
-    AssignmentResponse getAssignmentById(String id);
+
+    AssignmentResponse createAssignment(CreateAssignmentRequest request, MultipartFile file);
+
+    AssignmentResponse getAssignmentById(String assignmentId);
+
+    List<AssignmentResponse> getAllAssignments();
+
     List<AssignmentResponse> getAssignmentsByCourse(String courseId);
+
     List<AssignmentResponse> getAssignmentsByInstructor(String instructorId);
-    AssignmentResponse updateAssignment(String id, UpdateAssignmentRequest request);
-    void deleteAssignment(String id);
-    AssignmentResponse publishAssignment(String id);
+
+    AssignmentResponse updateAssignment(String assignmentId, UpdateAssignmentRequest request, MultipartFile file);
+
+    void deleteAssignment(String assignmentId);
 }
