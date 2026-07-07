@@ -26,4 +26,7 @@ public interface StudentAssignmentService {
      * Powers the assignment detail/submit page.
      */
     StudentAssignmentResponse getAssignmentDetail(String assignmentId, String studentId);
+    String downloadAssignment(String assignmentId, String studentId);
+    String downloadSubmission(String assignmentId, String studentId);
+    
 }

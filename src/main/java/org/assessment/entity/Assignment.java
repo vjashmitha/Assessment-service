@@ -18,65 +18,169 @@ import org.assessment.enums.*;
 // Table: "assignments" | Partition key: assignmentId
 public class Assignment {
 
-    private String assignmentId;
-    private String title;
-    private String description;
-    private String courseId;
-    private String courseName;
-    private Float totalMarks;
-    private Float passMarks;
-    private AssignmentType assignmentType;
-    private DifficultyLevel difficultyLevel;
-    private AssignmentStatus status;
-    private LocalDate dueDate;
-    private String assignmentFileUrl;
-    private String createdBy;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+	private String assignmentId;
+	private String title;
+	private String description;
+	private String courseId;
+	private String courseName;
+	private Float totalMarks;
+	private Float passMarks;
+	private AssignmentType assignmentType;
+	private DifficultyLevel difficultyLevel;
+	private AssignmentStatus status;
 
-    @DynamoDbPartitionKey
-    public String getAssignmentId() { return assignmentId; }
-    public void setAssignmentId(String assignmentId) { this.assignmentId = assignmentId; }
+	private String assignmentFileUrl;
+	private String trainerId;
+	private String createdBy;
+	private String dueDate;
+	private String createdAt;
+	private String updatedAt;
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+	private Integer maxAttempts;
+	private Boolean allowResubmission;
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+	@DynamoDbPartitionKey
+	public String getAssignmentId() {
+		return assignmentId;
+	}
 
-    public String getCourseId() { return courseId; }
-    public void setCourseId(String courseId) { this.courseId = courseId; }
+	public void setAssignmentId(String assignmentId) {
+		this.assignmentId = assignmentId;
+	}
 
-    public String getCourseName() { return courseName; }
-    public void setCourseName(String courseName) { this.courseName = courseName; }
+	public String getTitle() {
+		return title;
+	}
 
-    public Float getTotalMarks() { return totalMarks; }
-    public void setTotalMarks(Float totalMarks) { this.totalMarks = totalMarks; }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public Float getPassMarks() { return passMarks; }
-    public void setPassMarks(Float passMarks) { this.passMarks = passMarks; }
+	public String getDescription() {
+		return description;
+	}
 
-    public AssignmentType getAssignmentType() { return assignmentType; }
-    public void setAssignmentType(AssignmentType assignmentType) { this.assignmentType = assignmentType; }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public DifficultyLevel getDifficultyLevel() { return difficultyLevel; }
-    public void setDifficultyLevel(DifficultyLevel difficultyLevel) { this.difficultyLevel = difficultyLevel; }
+	public String getCourseId() {
+		return courseId;
+	}
 
-    public AssignmentStatus getStatus() { return status; }
-    public void setStatus(AssignmentStatus status) { this.status = status; }
+	public void setCourseId(String courseId) {
+		this.courseId = courseId;
+	}
 
-    public LocalDate getDueDate() { return dueDate; }
-    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+	public String getCourseName() {
+		return courseName;
+	}
 
-    public String getAssignmentFileUrl() { return assignmentFileUrl; }
-    public void setAssignmentFileUrl(String assignmentFileUrl) { this.assignmentFileUrl = assignmentFileUrl; }
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
 
-    public String getCreatedBy() { return createdBy; }
-    public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
+	public Float getTotalMarks() {
+		return totalMarks;
+	}
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+	public void setTotalMarks(Float totalMarks) {
+		this.totalMarks = totalMarks;
+	}
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+	public Float getPassMarks() {
+		return passMarks;
+	}
+
+	public void setPassMarks(Float passMarks) {
+		this.passMarks = passMarks;
+	}
+
+	public AssignmentType getAssignmentType() {
+		return assignmentType;
+	}
+
+	public void setAssignmentType(AssignmentType assignmentType) {
+		this.assignmentType = assignmentType;
+	}
+
+	public DifficultyLevel getDifficultyLevel() {
+		return difficultyLevel;
+	}
+
+	public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
+		this.difficultyLevel = difficultyLevel;
+	}
+
+	public AssignmentStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(AssignmentStatus status) {
+		this.status = status;
+	}
+
+	public String getAssignmentFileUrl() {
+		return assignmentFileUrl;
+	}
+
+	public void setAssignmentFileUrl(String assignmentFileUrl) {
+		this.assignmentFileUrl = assignmentFileUrl;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getTrainerId() {
+		return trainerId;
+	}
+
+	public void setTrainerId(String trainerId) {
+		this.trainerId = trainerId;
+	}
+
+	public Integer getMaxAttempts() {
+		return maxAttempts;
+	}
+
+	public void setMaxAttempts(Integer maxAttempts) {
+		this.maxAttempts = maxAttempts;
+	}
+
+	public Boolean getAllowResubmission() {
+		return allowResubmission;
+	}
+
+	public void setAllowResubmission(Boolean allowResubmission) {
+		this.allowResubmission = allowResubmission;
+	}
+
+	public String getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public String getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(String updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 }

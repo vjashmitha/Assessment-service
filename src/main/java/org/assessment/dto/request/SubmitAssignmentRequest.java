@@ -11,5 +11,10 @@ public class SubmitAssignmentRequest {
 
     private String content;
 
-    private String fileUrl;
+  
+ 
+    private String submissionFileUrl;
+ 
+     
+     
 }

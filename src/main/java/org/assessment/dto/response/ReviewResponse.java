@@ -7,13 +7,16 @@ import org.assessment.enums.ResultStatus;
 @Data
 @Builder
 public class ReviewResponse {
-    private String id;
-    private String submissionId;
-    private String reviewerId;
-    private String feedback;
-    private Float marksAwarded;
-    private ResultStatus resultStatus;
-    private String reviewedAt;
-    private String createdAt;
-    private String updatedAt;
+	private String id;
+	private String submissionId;
+	private String reviewerId;
+	private String feedback;
+	private Float marksAwarded;
+	private ResultStatus resultStatus;
+	private String reviewedAt;
+	private String createdAt;
+	private String updatedAt;
+
+	private String reviewedBy;
+
 }

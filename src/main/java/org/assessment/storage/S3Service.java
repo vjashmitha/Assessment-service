@@ -11,4 +11,5 @@ public interface S3Service {
     void deleteFile(String fileKey);
 
     String getFileUrl(String fileKey);
+    String generatePresignedUrl(String fileUrlOrKey);
 }

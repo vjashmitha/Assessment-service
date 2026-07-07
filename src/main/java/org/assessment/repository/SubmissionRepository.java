@@ -61,4 +61,28 @@ public class SubmissionRepository {
                 .filter(s -> assignmentId.equals(s.getAssignmentId()))
                 .count();
     }
+    public void deleteById(String submissionId) {
+        table.deleteItem(Key.builder().partitionValue(submissionId).build());
+    }
+    
+    public List<Submission> findByTrainerId(String trainerId) {
+        return table.scan().items().stream()
+                .filter(s -> trainerId.equals(s.getTrainerId()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Submission> findByTrainerIdAndStatus(String trainerId, SubmissionStatus status) {
+        return table.scan().items().stream()
+                .filter(s -> trainerId.equals(s.getTrainerId()) && status == s.getStatus())
+                .collect(Collectors.toList());
+    }
+
+    public List<Submission> findPendingByTrainerId(String trainerId) {
+        return table.scan().items().stream()
+                .filter(s -> trainerId.equals(s.getTrainerId()))
+                .filter(s -> s.getStatus() == SubmissionStatus.SUBMITTED
+                        || s.getStatus() == SubmissionStatus.LATE_SUBMITTED)
+                .collect(Collectors.toList());
+    }
+    
 }

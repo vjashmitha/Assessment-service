@@ -31,34 +31,66 @@ public class ReviewServiceImpl implements ReviewService {
     private final AssignmentRepository assignmentRepository;
     private final AssignmentReviewMapper reviewMapper;
 
+     
     @Override
     public ReviewResponse reviewSubmission(ReviewAssignmentRequest request) {
+
         String reviewerId = CommonUtil.extractUserIdFromRequest();
 
         Submission submission = submissionRepository.findById(request.getSubmissionId())
-                .orElseThrow(() -> new ResourceNotFoundException("Submission not found with id: " + request.getSubmissionId()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Submission not found with id: " + request.getSubmissionId()
+                ));
 
-        reviewRepository.findBySubmissionId(request.getSubmissionId())
-                .ifPresent(r -> {
-                    throw new ValidationException("Submission already reviewed");
-                });
+        if (submission.getStatus() != SubmissionStatus.SUBMITTED
+                && submission.getStatus() != SubmissionStatus.REVIEWED) {
+            throw new ValidationException(
+                    "Only submitted or reviewed submissions can be reviewed"
+            );
+        }
 
         Assignment assignment = assignmentRepository.findById(submission.getAssignmentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Assignment not found with id: " + submission.getAssignmentId()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Assignment not found with id: " + submission.getAssignmentId()
+                ));
 
-        Review review = reviewMapper.toEntity(request, reviewerId);
-        
-        // Calculate result status based on pass marks
-        float passMarks = assignment.getPassMarks() != null ? assignment.getPassMarks() : 0f;
-        float marksAwarded = review.getMarksAwarded() != null ? review.getMarksAwarded() : 0f;
-        review.setResultStatus(marksAwarded >= passMarks ? ResultStatus.PASS : ResultStatus.FAIL);
-        
-        Review savedReview = reviewRepository.save(review);
+        if (request.getMarksAwarded() == null) {
+            throw new ValidationException("Marks awarded is required");
+        }
 
+        if (assignment.getTotalMarks() == null) {
+            throw new ValidationException("Assignment total marks is not set");
+        }
+
+        if (request.getMarksAwarded() > assignment.getTotalMarks()) {
+            throw new ValidationException("Marks awarded cannot be greater than total marks");
+        }
+
+        Float passMarks = assignment.getPassMarks() != null ? assignment.getPassMarks() : 0F;
+
+        ResultStatus resultStatus = request.getMarksAwarded() >= passMarks
+                ? ResultStatus.PASS
+                : ResultStatus.FAIL;
+
+        LocalDateTime now = LocalDateTime.now();
+
+        submission.setMarksAwarded(request.getMarksAwarded());
+        submission.setFeedback(request.getFeedback());
+        submission.setReviewedBy(reviewerId);
+        submission.setReviewedAt(now);
+        submission.setResultStatus(resultStatus);
         submission.setStatus(SubmissionStatus.REVIEWED);
-        submissionRepository.save(submission);
 
-        return reviewMapper.toResponse(savedReview);
+        Submission saved = submissionRepository.save(submission);
+
+        return ReviewResponse.builder()
+                .submissionId(saved.getSubmissionId())
+                .reviewedBy(saved.getReviewedBy())
+                .feedback(saved.getFeedback())
+                .marksAwarded(saved.getMarksAwarded())
+                .resultStatus(saved.getResultStatus())
+                .reviewedAt(saved.getReviewedAt() != null ? saved.getReviewedAt().toString() : null)
+                .build();
     }
 
     @Override

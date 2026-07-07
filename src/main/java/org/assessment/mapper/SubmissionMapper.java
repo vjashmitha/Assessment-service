@@ -21,7 +21,7 @@ public class SubmissionMapper {
         submission.setSubmissionId(UUID.randomUUID().toString());
         submission.setAssignmentId(request.getAssignmentId());
         submission.setLearnerId(learnerId);
-        submission.setSubmissionFileUrl(request.getFileUrl());
+        submission.setSubmissionFileUrl(request.getSubmissionFileUrl());
         submission.setStatus(SubmissionStatus.SUBMITTED);
         submission.setSubmittedAt(LocalDateTime.now());
         return submission;
@@ -42,18 +42,21 @@ public class SubmissionMapper {
         }
 
         return SubmissionResponse.builder()
-                .id(submission.getSubmissionId())
+                .submissionId(submission.getSubmissionId())
                 .assignmentId(submission.getAssignmentId())
-                .studentId(submission.getLearnerId())
-                .content(null)
-                .fileUrl(submission.getSubmissionFileUrl())
+                .courseId(submission.getCourseId())
+                .trainerId(submission.getTrainerId())
+                .learnerId(submission.getLearnerId())
+                .learnerName(submission.getLearnerName())
+                .submissionFileUrl(submission.getSubmissionFileUrl())
                 .status(submission.getStatus())
-                .resultStatus(review != null ? review.getResultStatus() : null)
-                .obtainedMarks(marks)
-                .feedback(review != null ? review.getFeedback() : null)
+                .resultStatus(review != null ? review.getResultStatus() : submission.getResultStatus())
+                .marksAwarded(review != null ? marks : submission.getMarksAwarded())
+                .feedback(review != null ? review.getFeedback() : submission.getFeedback())
+                .reviewedBy(submission.getReviewedBy())
+                .attemptNumber(submission.getAttemptNumber())
                 .submittedAt(submission.getSubmittedAt() != null ? submission.getSubmittedAt().toString() : null)
-                .createdAt(submission.getSubmittedAt() != null ? submission.getSubmittedAt().toString() : null)
-                .updatedAt(submission.getSubmittedAt() != null ? submission.getSubmittedAt().toString() : null)
+                .reviewedAt(submission.getReviewedAt() != null ? submission.getReviewedAt().toString() : null)
                 .build();
     }
 }

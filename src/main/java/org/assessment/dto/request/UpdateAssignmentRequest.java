@@ -27,4 +27,10 @@ public class UpdateAssignmentRequest {
     private LocalDate dueDate;
 
     private Boolean allowLateSubmission;
+    private Boolean allowResubmission;
+    private Integer maxAttempts;
+    
+    private String courseId;
+     
+    
 }

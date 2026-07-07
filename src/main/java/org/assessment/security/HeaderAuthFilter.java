@@ -14,32 +14,43 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * This filter trusts the X-User-Id and X-User-Role headers forwarded by the API Gateway.
- * The Gateway is responsible for validating the JWT before forwarding requests here.
- */
 @Component
 public class HeaderAuthFilter extends OncePerRequestFilter {
+	public static final String USER_ID_HEADER = "X-User-Id";
+	public static final String USER_ROLE_HEADER = "X-User-Role";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
         String userId = request.getHeader(Constants.USER_ID_HEADER);
         String userRole = request.getHeader(Constants.USER_ROLE_HEADER);
 
         if (userId != null && !userId.isBlank()) {
+
             List<SimpleGrantedAuthority> authorities = List.of();
+
             if (userRole != null && !userRole.isBlank()) {
-                authorities = List.of(new SimpleGrantedAuthority("ROLE_" + userRole.toUpperCase()));
+                String normalizedRole = userRole.trim().toUpperCase();
+
+                if (!normalizedRole.startsWith("ROLE_")) {
+                    normalizedRole = "ROLE_" + normalizedRole;
+                }
+
+                authorities = List.of(new SimpleGrantedAuthority(normalizedRole));
             }
 
-            UsernamePasswordAuthenticationToken auth =
-                new UsernamePasswordAuthenticationToken(userId, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userId, null, authorities);
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         filterChain.doFilter(request, response);
+        System.out.println("X-User-Id = " + userId);
+        System.out.println("X-User-Role = " + userRole);
     }
+    
 }

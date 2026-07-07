@@ -25,4 +25,6 @@ public class AssignmentResponse {
     private String createdBy;
     private String createdAt;
     private String updatedAt;
+    private String submissionId;
+    private String reviewedBy;
 }

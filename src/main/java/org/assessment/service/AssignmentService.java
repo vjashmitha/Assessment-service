@@ -22,4 +22,5 @@ public interface AssignmentService {
     AssignmentResponse updateAssignment(String assignmentId, UpdateAssignmentRequest request, MultipartFile file);
 
     void deleteAssignment(String assignmentId);
+    String downloadAssignmentFile(String assignmentId);
 }

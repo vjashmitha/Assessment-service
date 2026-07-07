@@ -45,9 +45,18 @@ public class AssignmentRepository {
                 .collect(Collectors.toList());
     }
 
-    public List<Assignment> findByCreatedBy(String createdBy) {
+   /* public List<Assignment> findByCreatedBy(String createdBy) {
         return table.scan().items().stream()
                 .filter(a -> createdBy.equals(a.getCreatedBy()))
+                .collect(Collectors.toList());
+    }
+    */
+    
+   
+    
+    public List<Assignment> findByTrainerId(String trainerId) {
+        return table.scan().items().stream()
+                .filter(a -> trainerId.equals(a.getTrainerId()))
                 .collect(Collectors.toList());
     }
 }

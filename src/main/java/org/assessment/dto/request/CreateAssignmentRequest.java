@@ -28,6 +28,8 @@ public class CreateAssignmentRequest {
     private AssignmentType assignmentType;
 
     private DifficultyLevel difficultyLevel;
+    private Boolean allowResubmission;
+    private Integer maxAttempts;
 
     private LocalDate dueDate;
 }
