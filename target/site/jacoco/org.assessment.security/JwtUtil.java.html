@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assessment-service</a> &gt; <a href="index.source.html" class="el_package">org.assessment.security</a> &gt; <span class="el_source">JwtUtil.java</span></div><h1>JwtUtil.java</h1><pre class="source lang-java linenums">package org.assessment.security;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Date;
+
+/**
+ * Utility for parsing and validating JWT tokens.
+ *
+ * In this microservice architecture the API Gateway is the primary validator —
+ * it validates the JWT and forwards X-User-Id / X-User-Role headers.
+ * HeaderAuthFilter reads those headers to build the SecurityContext.
+ *
+ * This class exists so the service can ALSO independently verify a token
+ * if needed (e.g. for added security, or when calling without a gateway).
+ */
+@Component
+<span class="fc" id="L26">@Slf4j</span>
+public class JwtUtil {
+
+    private final Key signingKey;
+
+<span class="fc" id="L31">    public JwtUtil(@Value(&quot;${jwt.secret}&quot;) String secret) {</span>
+        // Build an HMAC-SHA key from the configured secret
+<span class="fc" id="L33">        this.signingKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * Parse and validate a JWT token string.
+     * Strips the &quot;Bearer &quot; prefix if present.
+     *
+     * @param token raw Authorization header value or plain token string
+     * @return Claims object containing userId, role, expiry, etc.
+     * @throws JwtException if the token is invalid or expired
+     */
+    public Claims parseToken(String token) {
+<span class="fc" id="L45">        String cleanToken = stripBearer(token);</span>
+<span class="fc" id="L46">        return Jwts.parserBuilder()</span>
+<span class="fc" id="L47">                .setSigningKey(signingKey)</span>
+<span class="fc" id="L48">                .build()</span>
+<span class="fc" id="L49">                .parseClaimsJws(cleanToken)</span>
+<span class="fc" id="L50">                .getBody();</span>
+    }
+
+    /**
+     * Extract the userId (subject) from a token.
+     */
+    public String extractUserId(String token) {
+<span class="fc" id="L57">        return parseToken(token).getSubject();</span>
+    }
+
+    /**
+     * Extract a specific claim by key.
+     * Example: extractClaim(token, &quot;role&quot;) → &quot;INSTRUCTOR&quot;
+     */
+    public String extractClaim(String token, String claimKey) {
+<span class="fc" id="L65">        Claims claims = parseToken(token);</span>
+<span class="fc" id="L66">        return claims.get(claimKey, String.class);</span>
+    }
+
+    /**
+     * Check if a token is valid (signature OK and not expired).
+     */
+    public boolean isTokenValid(String token) {
+        try {
+<span class="fc" id="L74">            Claims claims = parseToken(token);</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">            return !claims.getExpiration().before(new Date());</span>
+<span class="fc" id="L76">        } catch (JwtException | IllegalArgumentException e) {</span>
+<span class="fc" id="L77">            log.warn(&quot;Invalid JWT token: {}&quot;, e.getMessage());</span>
+<span class="fc" id="L78">            return false;</span>
+        }
+    }
+
+    /**
+     * Check if a token has expired.
+     */
+    public boolean isTokenExpired(String token) {
+        try {
+<span class="fc" id="L87">            return parseToken(token).getExpiration().before(new Date());</span>
+<span class="fc" id="L88">        } catch (JwtException e) {</span>
+<span class="fc" id="L89">            return true;</span>
+        }
+    }
+
+    /**
+     * Strip the &quot;Bearer &quot; prefix if present.
+     */
+    private String stripBearer(String token) {
+<span class="fc bfc" id="L97" title="All 4 branches covered.">        if (token != null &amp;&amp; token.startsWith(&quot;Bearer &quot;)) {</span>
+<span class="fc" id="L98">            return token.substring(7);</span>
+        }
+<span class="fc" id="L100">        return token;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

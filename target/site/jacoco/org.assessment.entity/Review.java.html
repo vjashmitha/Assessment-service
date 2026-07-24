@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Review.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assessment-service</a> &gt; <a href="index.source.html" class="el_package">org.assessment.entity</a> &gt; <span class="el_source">Review.java</span></div><h1>Review.java</h1><pre class="source lang-java linenums">package org.assessment.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+
+import java.time.LocalDateTime;
+
+import org.assessment.enums.ResultStatus;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@DynamoDbBean
+// Table: &quot;reviews&quot; | Partition key: reviewId
+public class Review {
+
+    private String reviewId;
+    private String submissionId;
+    private String reviewerId;
+    private Float marksAwarded;
+    private String feedback;
+    private ResultStatus resultStatus;
+    private LocalDateTime reviewedAt;
+
+    @DynamoDbPartitionKey
+<span class="fc" id="L29">    public String getReviewId() { return reviewId; }</span>
+<span class="fc" id="L30">    public void setReviewId(String reviewId) { this.reviewId = reviewId; }</span>
+
+<span class="fc" id="L32">    public String getSubmissionId() { return submissionId; }</span>
+<span class="fc" id="L33">    public void setSubmissionId(String submissionId) { this.submissionId = submissionId; }</span>
+
+<span class="fc" id="L35">    public String getReviewerId() { return reviewerId; }</span>
+<span class="fc" id="L36">    public void setReviewerId(String reviewerId) { this.reviewerId = reviewerId; }</span>
+
+<span class="fc" id="L38">    public Float getMarksAwarded() { return marksAwarded; }</span>
+<span class="fc" id="L39">    public void setMarksAwarded(Float marksAwarded) { this.marksAwarded = marksAwarded; }</span>
+
+<span class="fc" id="L41">    public String getFeedback() { return feedback; }</span>
+<span class="fc" id="L42">    public void setFeedback(String feedback) { this.feedback = feedback; }</span>
+
+<span class="fc" id="L44">    public ResultStatus getResultStatus() { return resultStatus; }</span>
+<span class="fc" id="L45">    public void setResultStatus(ResultStatus resultStatus) { this.resultStatus = resultStatus; }</span>
+
+<span class="fc" id="L47">    public LocalDateTime getReviewedAt() { return reviewedAt; }</span>
+<span class="fc" id="L48">    public void setReviewedAt(LocalDateTime reviewedAt) { this.reviewedAt = reviewedAt; }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

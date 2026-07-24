@@ -24,7 +24,7 @@ public class AssignmentMapper {
         assignment.setCreatedBy(instructorId);
         assignment.setAssignmentType(request.getAssignmentType());
         assignment.setDifficultyLevel(request.getDifficultyLevel());
-        assignment.setStatus(AssignmentStatus.DRAFT);
+        assignment.setStatus(AssignmentStatus.PUBLISHED);
         assignment.setTotalMarks(request.getTotalMarks());
         assignment.setPassMarks(request.getPassMarks());
         assignment.setDueDate(request.getDueDate());

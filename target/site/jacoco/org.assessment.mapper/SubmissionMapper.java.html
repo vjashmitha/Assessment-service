@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SubmissionMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assessment-service</a> &gt; <a href="index.source.html" class="el_package">org.assessment.mapper</a> &gt; <span class="el_source">SubmissionMapper.java</span></div><h1>SubmissionMapper.java</h1><pre class="source lang-java linenums">package org.assessment.mapper;
+
+import org.assessment.dto.request.SubmitAssignmentRequest;
+import org.assessment.dto.response.SubmissionResponse;
+import org.assessment.entity.Submission;
+import org.assessment.entity.Review;
+import org.assessment.enums.SubmissionStatus;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Component
+<span class="fc" id="L14">public class SubmissionMapper {</span>
+
+    public Submission toEntity(SubmitAssignmentRequest request, String learnerId) {
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        if (request == null) {</span>
+<span class="fc" id="L18">            return null;</span>
+        }
+<span class="fc" id="L20">        Submission submission = new Submission();</span>
+<span class="fc" id="L21">        submission.setSubmissionId(UUID.randomUUID().toString());</span>
+<span class="fc" id="L22">        submission.setAssignmentId(request.getAssignmentId());</span>
+<span class="fc" id="L23">        submission.setLearnerId(learnerId);</span>
+<span class="fc" id="L24">        submission.setSubmissionFileUrl(request.getFileUrl());</span>
+<span class="fc" id="L25">        submission.setStatus(SubmissionStatus.SUBMITTED);</span>
+<span class="fc" id="L26">        submission.setSubmittedAt(LocalDateTime.now());</span>
+<span class="fc" id="L27">        return submission;</span>
+    }
+
+    public SubmissionResponse toResponse(Submission submission) {
+<span class="fc" id="L31">        return toResponse(submission, null);</span>
+    }
+
+    public SubmissionResponse toResponse(Submission submission, Review review) {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (submission == null) {</span>
+<span class="fc" id="L36">            return null;</span>
+        }
+
+<span class="fc" id="L39">        Float marks = null;</span>
+<span class="fc bfc" id="L40" title="All 4 branches covered.">        if (review != null &amp;&amp; review.getMarksAwarded() != null) {</span>
+<span class="fc" id="L41">            marks = review.getMarksAwarded();</span>
+        }
+
+<span class="fc" id="L44">        return SubmissionResponse.builder()</span>
+<span class="fc" id="L45">                .id(submission.getSubmissionId())</span>
+<span class="fc" id="L46">                .assignmentId(submission.getAssignmentId())</span>
+<span class="fc" id="L47">                .studentId(submission.getLearnerId())</span>
+<span class="fc" id="L48">                .content(null)</span>
+<span class="fc" id="L49">                .fileUrl(submission.getSubmissionFileUrl())</span>
+<span class="fc" id="L50">                .status(submission.getStatus())</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">                .resultStatus(review != null ? review.getResultStatus() : null)</span>
+<span class="fc" id="L52">                .obtainedMarks(marks)</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                .feedback(review != null ? review.getFeedback() : null)</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">                .submittedAt(submission.getSubmittedAt() != null ? submission.getSubmittedAt().toString() : null)</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">                .createdAt(submission.getSubmittedAt() != null ? submission.getSubmittedAt().toString() : null)</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">                .updatedAt(submission.getSubmittedAt() != null ? submission.getSubmittedAt().toString() : null)</span>
+<span class="fc" id="L57">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

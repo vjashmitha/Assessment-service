@@ -5,60 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35cc4439-be9c-4212-bb84-fd17afdb9ef8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/assessment/security/UserPrincipal.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/assessment/storage/FileUploadResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/config/DynamoDbConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/config/DynamoDbConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/config/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/config/SwaggerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/controller/AssignmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/controller/AssignmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/controller/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/controller/DashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/controller/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/controller/ReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/controller/ReviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/controller/ReviewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/controller/SubmissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/controller/SubmissionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/dto/request/CreateAssignmentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/dto/request/CreateAssignmentRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/dto/request/ReviewAssignmentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/dto/request/ReviewAssignmentRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/dto/request/UpdateAssignmentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/dto/request/UpdateAssignmentRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/dto/response/AssignmentResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/dto/response/AssignmentResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/dto/response/DashboardResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/dto/response/DashboardResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/dto/response/ReportResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/dto/response/ReportResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/dto/response/ReviewResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/dto/response/ReviewResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/dto/response/SubmissionResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/dto/response/SubmissionResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/entity/Assignment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/entity/Assignment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/entity/AssignmentReview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/entity/Review.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/entity/Submission.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/entity/Submission.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/enums/AssignmentStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/enums/AssignmentStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/enums/AssignmentType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/enums/AssignmentType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/enums/DifficultyLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/enums/DifficultyLevel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/enums/ResultStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/enums/ResultStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/enums/SubmissionStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/enums/SubmissionStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/exception/FileUploadException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/exception/FileUploadException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/exception/ResourceNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/exception/ResourceNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/exception/ValidationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/exception/ValidationException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/mapper/AssignmentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/mapper/AssignmentMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/mapper/AssignmentReviewMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/mapper/AssignmentReviewMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/mapper/SubmissionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/mapper/SubmissionMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/repository/AssignmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/repository/AssignmentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/repository/AssignmentReviewRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/repository/ReviewRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/repository/SubmissionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/repository/SubmissionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/security/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/security/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/security/SecurityConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/service/AssignmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/service/AssignmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/service/impl/AssignmentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/service/impl/AssignmentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/service/impl/DashboardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/service/impl/DashboardServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/service/impl/ReportServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/service/impl/ReportServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/service/impl/ReviewServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/service/impl/ReviewServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/service/impl/SubmissionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/service/impl/SubmissionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/storage/S3Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/storage/S3Service.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/storage/S3ServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/storage/S3ServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/util/CommonUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/util/CommonUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/assessment/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/assessment/util/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/assessment-service-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/assessment-service-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/assessment-service-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/assessment-service-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/assessment/dto/response/StudentAssignmentResponse$StudentAssignmentResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/assessment/dto/response/StudentAssignmentResponse$StudentAssignmentResponseBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/assessment/dto/response/StudentAssignmentResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/assessment/dto/response/StudentAssignmentResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/assessment/dto/response/SubmissionResponse$SubmissionResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/assessment/dto/response/SubmissionResponse$SubmissionResponseBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/assessment/dto/response/SubmissionResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/assessment/dto/response/SubmissionResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/assessment/entity/Assignment$AssignmentBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/assessment/entity/Assignment$AssignmentBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/assessment/entity/Review$ReviewBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/assessment/entity/Review$ReviewBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/assessment/entity/Submission$SubmissionBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/assessment/entity/Submission$SubmissionBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/assessment/mapper/AssignmentMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/assessment/mapper/AssignmentMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +27,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="73" />
+    <option name="cachedIndexableFilesCount" value="111" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -76,11 +37,87 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;vjashmitha&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/vjashmitha/Assessment-service.git&quot;,
+    &quot;accountId&quot;: &quot;b8a1964f-5de4-4012-8a02-3b3be8d6b165&quot;
+  }
+}</component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0000022999236688" />
+      <entry key="MS500" value="1.0935167182969288" />
+      <entry key="S2" value="2.718756310672494" />
+      <entry key="S5" value="4.584681496959355" />
+      <entry key="S10" value="5.626992110263745" />
+      <entry key="S30" value="6.499452012198285" />
+      <entry key="S60" value="6.743929079062041" />
+      <entry key="M2" value="6.870480275514647" />
+      <entry key="M5" value="6.94785355063124" />
+      <entry key="M10" value="7.001776363987131" />
+      <entry key="M15" value="7.297911530863543" />
+      <entry key="M30" value="10.658129991294093" />
+      <entry key="H1" value="19.64663217445388" />
+      <entry key="H2" value="30.567236683281884" />
+      <entry key="H4" value="39.194072731456984" />
+      <entry key="D1" value="48.766217093756936" />
+      <entry key="W1" value="50.673682088041126" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="4.9861593325550786E-179" />
+      <entry key="S30" value="3.6806290605675074E-60" />
+      <entry key="S60" value="1.9185143814840766E-30" />
+      <entry key="M2" value="1.3893192896727797E-15" />
+      <entry key="M5" value="1.2514271168295096E-6" />
+      <entry key="M10" value="0.0014023571582478767" />
+      <entry key="M15" value="0.015267765382196615" />
+      <entry key="M30" value="0.17164937775105557" />
+      <entry key="H1" value="0.583221324748717" />
+      <entry key="H2" value="1.0787652365196525" />
+      <entry key="H4" value="1.4684258592179642" />
+      <entry key="D1" value="1.8995443098968232" />
+      <entry key="W1" value="1.9853283370879986" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="2.3403240210464617E-5" />
+      <entry key="MS500" value="0.17650814919477043" />
+      <entry key="S2" value="2.208253831526901" />
+      <entry key="S5" value="4.3258108583802475" />
+      <entry key="S10" value="5.485560468392024" />
+      <entry key="S30" value="6.449284925827621" />
+      <entry key="S60" value="6.7184424076181095" />
+      <entry key="M2" value="6.857634144428809" />
+      <entry key="M5" value="6.942691386579" />
+      <entry key="M10" value="7.000576708017226" />
+      <entry key="M15" value="7.311338879348151" />
+      <entry key="M30" value="10.828277329559084" />
+      <entry key="H1" value="20.228344434221363" />
+      <entry key="H2" value="31.64479296934568" />
+      <entry key="H4" value="40.66171577410422" />
+      <entry key="D1" value="50.66559807947746" />
+      <entry key="W1" value="52.65898615959044" />
+    </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -90,24 +127,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven.Unnamed.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.AssessmentServiceApplication.executor": "Run",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/vjash/Desktop/Assessment-service",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "MavenSettings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Spring Boot.AssessmentServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Galactix&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Jashmitha velugoti/OneDrive/Desktop/backend/Assessment-service&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Spring Boot.AssessmentServiceApplication">
     <configuration name="Unnamed" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
@@ -139,7 +184,7 @@
     </configuration>
     <configuration name="AssessmentServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
-      <module name="Assessment-service" />
+      <module name="assessment-service" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.assessment.AssessmentServiceApplication" />
       <extension name="coverage">
         <pattern>
@@ -155,7 +200,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.26222.65" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.26222.65" />
       </set>
     </attachedChunks>
   </component>
@@ -168,6 +214,9 @@
       <updated>1781329372147</updated>
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

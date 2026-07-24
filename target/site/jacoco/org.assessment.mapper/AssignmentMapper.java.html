@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AssignmentMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assessment-service</a> &gt; <a href="index.source.html" class="el_package">org.assessment.mapper</a> &gt; <span class="el_source">AssignmentMapper.java</span></div><h1>AssignmentMapper.java</h1><pre class="source lang-java linenums">package org.assessment.mapper;
+
+import org.assessment.dto.request.CreateAssignmentRequest;
+import org.assessment.dto.response.AssignmentResponse;
+import org.assessment.entity.Assignment;
+import org.assessment.enums.AssignmentStatus;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Component
+<span class="fc" id="L13">public class AssignmentMapper {</span>
+
+    public Assignment toEntity(CreateAssignmentRequest request, String instructorId) {
+<span class="fc bfc" id="L16" title="All 2 branches covered.">        if (request == null) {</span>
+<span class="fc" id="L17">            return null;</span>
+        }
+<span class="fc" id="L19">        Assignment assignment = new Assignment();</span>
+<span class="fc" id="L20">        assignment.setAssignmentId(UUID.randomUUID().toString());</span>
+<span class="fc" id="L21">        assignment.setTitle(request.getTitle());</span>
+<span class="fc" id="L22">        assignment.setDescription(request.getDescription());</span>
+<span class="fc" id="L23">        assignment.setCourseId(request.getCourseId());</span>
+<span class="fc" id="L24">        assignment.setCreatedBy(instructorId);</span>
+<span class="fc" id="L25">        assignment.setAssignmentType(request.getAssignmentType());</span>
+<span class="fc" id="L26">        assignment.setDifficultyLevel(request.getDifficultyLevel());</span>
+<span class="fc" id="L27">        assignment.setStatus(AssignmentStatus.PUBLISHED);</span>
+<span class="fc" id="L28">        assignment.setTotalMarks(request.getTotalMarks());</span>
+<span class="fc" id="L29">        assignment.setPassMarks(request.getPassMarks());</span>
+<span class="fc" id="L30">        assignment.setDueDate(request.getDueDate());</span>
+<span class="fc" id="L31">        assignment.setCreatedAt(LocalDateTime.now());</span>
+<span class="fc" id="L32">        assignment.setUpdatedAt(LocalDateTime.now());</span>
+<span class="fc" id="L33">        return assignment;</span>
+    }
+
+    public AssignmentResponse toResponse(Assignment assignment) {
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (assignment == null) {</span>
+<span class="fc" id="L38">            return null;</span>
+        }
+<span class="fc" id="L40">        return AssignmentResponse.builder()</span>
+<span class="fc" id="L41">                .assignmentId(assignment.getAssignmentId())</span>
+<span class="fc" id="L42">                .title(assignment.getTitle())</span>
+<span class="fc" id="L43">                .description(assignment.getDescription())</span>
+<span class="fc" id="L44">                .courseId(assignment.getCourseId())</span>
+<span class="fc" id="L45">                .courseName(assignment.getCourseName())</span>
+<span class="fc" id="L46">                .totalMarks(assignment.getTotalMarks())</span>
+<span class="fc" id="L47">                .passMarks(assignment.getPassMarks())</span>
+<span class="fc" id="L48">                .assignmentType(assignment.getAssignmentType())</span>
+<span class="fc" id="L49">                .difficultyLevel(assignment.getDifficultyLevel())</span>
+<span class="fc" id="L50">                .status(assignment.getStatus())</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">                .dueDate(assignment.getDueDate() != null ? assignment.getDueDate().toString() : null)</span>
+<span class="fc" id="L52">                .assignmentFileUrl(assignment.getAssignmentFileUrl())</span>
+<span class="fc" id="L53">                .createdBy(assignment.getCreatedBy())</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">                .createdAt(assignment.getCreatedAt() != null ? assignment.getCreatedAt().toString() : null)</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">                .updatedAt(assignment.getUpdatedAt() != null ? assignment.getUpdatedAt().toString() : null)</span>
+<span class="fc" id="L56">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

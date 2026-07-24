@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AssignmentReviewMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assessment-service</a> &gt; <a href="index.source.html" class="el_package">org.assessment.mapper</a> &gt; <span class="el_source">AssignmentReviewMapper.java</span></div><h1>AssignmentReviewMapper.java</h1><pre class="source lang-java linenums">package org.assessment.mapper;
+
+import org.assessment.dto.request.ReviewAssignmentRequest;
+import org.assessment.dto.response.ReviewResponse;
+import org.assessment.entity.Review;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Component
+<span class="fc" id="L12">public class AssignmentReviewMapper {</span>
+
+    public Review toEntity(ReviewAssignmentRequest request, String reviewerId) {
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        if (request == null) {</span>
+<span class="fc" id="L16">            return null;</span>
+        }
+<span class="fc" id="L18">        Review review = new Review();</span>
+<span class="fc" id="L19">        review.setReviewId(UUID.randomUUID().toString());</span>
+<span class="fc" id="L20">        review.setSubmissionId(request.getSubmissionId());</span>
+<span class="fc" id="L21">        review.setReviewerId(reviewerId);</span>
+<span class="fc" id="L22">        review.setFeedback(request.getFeedback());</span>
+<span class="fc" id="L23">        review.setMarksAwarded(request.getMarksAwarded());</span>
+<span class="fc" id="L24">        review.setReviewedAt(LocalDateTime.now());</span>
+<span class="fc" id="L25">        return review;</span>
+    }
+
+    public ReviewResponse toResponse(Review review) {
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (review == null) {</span>
+<span class="fc" id="L30">            return null;</span>
+        }
+<span class="fc" id="L32">        return ReviewResponse.builder()</span>
+<span class="fc" id="L33">                .id(review.getReviewId())</span>
+<span class="fc" id="L34">                .submissionId(review.getSubmissionId())</span>
+<span class="fc" id="L35">                .reviewerId(review.getReviewerId())</span>
+<span class="fc" id="L36">                .feedback(review.getFeedback())</span>
+<span class="fc" id="L37">                .marksAwarded(review.getMarksAwarded())</span>
+<span class="fc" id="L38">                .resultStatus(review.getResultStatus())</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">                .reviewedAt(review.getReviewedAt() != null ? review.getReviewedAt().toString() : null)</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">                .createdAt(review.getReviewedAt() != null ? review.getReviewedAt().toString() : null)</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">                .updatedAt(review.getReviewedAt() != null ? review.getReviewedAt().toString() : null)</span>
+<span class="fc" id="L42">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

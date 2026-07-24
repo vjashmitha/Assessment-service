@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DashboardServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assessment-service</a> &gt; <a href="index.source.html" class="el_package">org.assessment.service.impl</a> &gt; <span class="el_source">DashboardServiceImpl.java</span></div><h1>DashboardServiceImpl.java</h1><pre class="source lang-java linenums">package org.assessment.service.impl;
+
+import lombok.RequiredArgsConstructor;
+import org.assessment.dto.response.DashboardResponse;
+import org.assessment.entity.Assignment;
+import org.assessment.entity.Review;
+import org.assessment.entity.Submission;
+import org.assessment.enums.ResultStatus;
+import org.assessment.enums.SubmissionStatus;
+import org.assessment.repository.AssignmentRepository;
+import org.assessment.repository.ReviewRepository;
+import org.assessment.repository.SubmissionRepository;
+import org.assessment.service.DashboardService;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class DashboardServiceImpl implements DashboardService {
+
+    private final AssignmentRepository assignmentRepository;
+    private final SubmissionRepository submissionRepository;
+    private final ReviewRepository reviewRepository;
+
+    @Override
+    public DashboardResponse getInstructorDashboard(String instructorId) {
+<span class="fc" id="L30">        List&lt;Assignment&gt; assignments = assignmentRepository.findByCreatedBy(instructorId);</span>
+<span class="fc" id="L31">        long totalAssignments = assignments.size();</span>
+<span class="fc" id="L32">        long totalSubmissions = 0;</span>
+<span class="fc" id="L33">        long pendingReviews = 0;</span>
+<span class="fc" id="L34">        long gradedSubmissions = 0;</span>
+
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (Assignment assignment : assignments) {</span>
+<span class="fc" id="L37">            List&lt;Submission&gt; submissions = submissionRepository.findByAssignmentId(assignment.getAssignmentId());</span>
+<span class="fc" id="L38">            totalSubmissions += submissions.size();</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">            for (Submission submission : submissions) {</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">                if (submission.getStatus() == SubmissionStatus.REVIEWED) {</span>
+<span class="fc" id="L41">                    gradedSubmissions++;</span>
+                } else {
+<span class="fc" id="L43">                    pendingReviews++;</span>
+                }
+<span class="fc" id="L45">            }</span>
+<span class="fc" id="L46">        }</span>
+
+<span class="fc" id="L48">        return DashboardResponse.builder()</span>
+<span class="fc" id="L49">                .totalAssignments(totalAssignments)</span>
+<span class="fc" id="L50">                .totalSubmissions(totalSubmissions)</span>
+<span class="fc" id="L51">                .pendingReviews(pendingReviews)</span>
+<span class="fc" id="L52">                .gradedSubmissions(gradedSubmissions)</span>
+<span class="fc" id="L53">                .build();</span>
+    }
+
+    @Override
+    public DashboardResponse getStudentDashboard(String studentId) {
+<span class="fc" id="L58">        List&lt;Submission&gt; submissions = submissionRepository.findByLearnerId(studentId);</span>
+<span class="fc" id="L59">        long totalSubmissions = submissions.size();</span>
+<span class="fc" id="L60">        long gradedSubmissions = 0;</span>
+<span class="fc" id="L61">        long passCount = 0;</span>
+<span class="fc" id="L62">        long failCount = 0;</span>
+<span class="fc" id="L63">        float totalMarks = 0.0f;</span>
+
+        // Count overdue: assignments past due date with no submission
+<span class="fc" id="L66">        long pendingOverdue = assignmentRepository.findAll().stream()</span>
+<span class="fc bfc" id="L67" title="All 4 branches covered.">                .filter(a -&gt; a.getDueDate() != null &amp;&amp; a.getDueDate().isBefore(java.time.LocalDate.now()))</span>
+<span class="fc" id="L68">                .filter(a -&gt; submissionRepository</span>
+<span class="fc" id="L69">                        .findByAssignmentIdAndLearnerId(a.getAssignmentId(), studentId)</span>
+<span class="fc" id="L70">                        .isEmpty())</span>
+<span class="fc" id="L71">                .count();</span>
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        for (Submission submission : submissions) {</span>
+<span class="fc" id="L74">            Optional&lt;Review&gt; reviewOpt = reviewRepository.findBySubmissionId(submission.getSubmissionId());</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            if (reviewOpt.isPresent()) {</span>
+<span class="fc" id="L76">                Review review = reviewOpt.get();</span>
+<span class="fc" id="L77">                gradedSubmissions++;</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">                if (review.getResultStatus() == ResultStatus.PASS) {</span>
+<span class="fc" id="L79">                    passCount++;</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">                } else if (review.getResultStatus() == ResultStatus.FAIL) {</span>
+<span class="fc" id="L81">                    failCount++;</span>
+                }
+<span class="fc bfc" id="L83" title="All 2 branches covered.">                if (review.getMarksAwarded() != null) {</span>
+<span class="fc" id="L84">                    totalMarks += review.getMarksAwarded();</span>
+                }
+            }
+<span class="fc" id="L87">        }</span>
+
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        float averageScore = gradedSubmissions &gt; 0 ? (totalMarks / gradedSubmissions) : 0.0f;</span>
+
+<span class="fc" id="L91">        return DashboardResponse.builder()</span>
+<span class="fc" id="L92">                .totalAssignments((long) assignmentRepository.findAll().size())</span>
+<span class="fc" id="L93">                .totalSubmissions(totalSubmissions)</span>
+<span class="fc" id="L94">                .submittedCount(totalSubmissions)</span>
+<span class="fc" id="L95">                .reviewedCount(gradedSubmissions)</span>
+<span class="fc" id="L96">                .pendingOverdue(pendingOverdue)</span>
+<span class="fc" id="L97">                .gradedSubmissions(gradedSubmissions)</span>
+<span class="fc" id="L98">                .passCount(passCount)</span>
+<span class="fc" id="L99">                .failCount(failCount)</span>
+<span class="fc" id="L100">                .averageScore(averageScore)</span>
+<span class="fc" id="L101">                .build();</span>
+    }
+
+    @Override
+    public DashboardResponse getCourseAssignmentStats(String courseId) {
+<span class="fc" id="L106">        List&lt;Assignment&gt; assignments = assignmentRepository.findByCourseId(courseId);</span>
+<span class="fc" id="L107">        long totalAssignments = assignments.size();</span>
+<span class="fc" id="L108">        long totalSubmissions = 0;</span>
+
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        for (Assignment assignment : assignments) {</span>
+<span class="fc" id="L111">            totalSubmissions += submissionRepository.countByAssignmentId(assignment.getAssignmentId());</span>
+<span class="fc" id="L112">        }</span>
+
+<span class="fc" id="L114">        return DashboardResponse.builder()</span>
+<span class="fc" id="L115">                .totalAssignments(totalAssignments)</span>
+<span class="fc" id="L116">                .totalSubmissions(totalSubmissions)</span>
+<span class="fc" id="L117">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReportServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assessment-service</a> &gt; <a href="index.source.html" class="el_package">org.assessment.service.impl</a> &gt; <span class="el_source">ReportServiceImpl.java</span></div><h1>ReportServiceImpl.java</h1><pre class="source lang-java linenums">package org.assessment.service.impl;
+
+import lombok.RequiredArgsConstructor;
+import org.assessment.dto.response.ReportResponse;
+import org.assessment.dto.response.SubmissionResponse;
+import org.assessment.entity.Assignment;
+import org.assessment.entity.Review;
+import org.assessment.entity.Submission;
+import org.assessment.enums.ResultStatus;
+import org.assessment.enums.SubmissionStatus;
+import org.assessment.exception.ResourceNotFoundException;
+import org.assessment.mapper.SubmissionMapper;
+import org.assessment.repository.AssignmentRepository;
+import org.assessment.repository.ReviewRepository;
+import org.assessment.repository.SubmissionRepository;
+import org.assessment.service.ReportService;
+import org.springframework.stereotype.Service;
+
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class ReportServiceImpl implements ReportService {
+
+    private final AssignmentRepository assignmentRepository;
+    private final SubmissionRepository submissionRepository;
+    private final ReviewRepository reviewRepository;
+    private final SubmissionMapper submissionMapper;
+
+    @Override
+    public ReportResponse getAssignmentReport(String assignmentId) {
+<span class="fc" id="L36">        Assignment assignment = assignmentRepository.findById(assignmentId)</span>
+<span class="fc" id="L37">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Assignment not found with id: &quot; + assignmentId));</span>
+
+<span class="fc" id="L39">        List&lt;Submission&gt; submissions = submissionRepository.findByAssignmentId(assignmentId);</span>
+<span class="fc" id="L40">        List&lt;SubmissionResponse&gt; submissionResponses = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L42">        long submittedCount = 0;</span>
+<span class="fc" id="L43">        long gradedCount = 0;</span>
+<span class="fc" id="L44">        long pendingCount = 0;</span>
+<span class="fc" id="L45">        long passCount = 0;</span>
+<span class="fc" id="L46">        long failCount = 0;</span>
+<span class="fc" id="L47">        float totalMarks = 0.0f;</span>
+<span class="fc" id="L48">        float highestScore = 0.0f;</span>
+<span class="fc" id="L49">        float lowestScore = Float.MAX_VALUE;</span>
+<span class="fc" id="L50">        boolean hasGrades = false;</span>
+
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        for (Submission submission : submissions) {</span>
+<span class="fc" id="L53">            Optional&lt;Review&gt; reviewOpt = reviewRepository.findBySubmissionId(submission.getSubmissionId());</span>
+<span class="fc" id="L54">            Review review = reviewOpt.orElse(null);</span>
+            
+<span class="fc" id="L56">            submissionResponses.add(submissionMapper.toResponse(submission, review));</span>
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (submission.getStatus() != SubmissionStatus.NOT_SUBMITTED) {</span>
+<span class="fc" id="L59">                submittedCount++;</span>
+            }
+
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (submission.getStatus() == SubmissionStatus.REVIEWED) {</span>
+<span class="fc" id="L63">                gradedCount++;</span>
+            } else {
+<span class="fc" id="L65">                pendingCount++;</span>
+            }
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">            if (review != null) {</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">                if (review.getResultStatus() == ResultStatus.PASS) {</span>
+<span class="fc" id="L70">                    passCount++;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">                } else if (review.getResultStatus() == ResultStatus.FAIL) {</span>
+<span class="fc" id="L72">                    failCount++;</span>
+                }
+<span class="fc bfc" id="L74" title="All 2 branches covered.">                if (review.getMarksAwarded() != null) {</span>
+<span class="fc" id="L75">                    hasGrades = true;</span>
+<span class="fc" id="L76">                    float marks = review.getMarksAwarded();</span>
+<span class="fc" id="L77">                    totalMarks += marks;</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">                    if (marks &gt; highestScore) {</span>
+<span class="fc" id="L79">                        highestScore = marks;</span>
+                    }
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">                    if (marks &lt; lowestScore) {</span>
+<span class="fc" id="L82">                        lowestScore = marks;</span>
+                    }
+                }
+            }
+<span class="fc" id="L86">        }</span>
+
+<span class="pc bpc" id="L88" title="1 of 4 branches missed.">        float averageScore = (hasGrades &amp;&amp; gradedCount &gt; 0) ? (totalMarks / gradedCount) : 0.0f;</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        float finalLowestScore = hasGrades ? lowestScore : 0.0f;</span>
+
+<span class="fc" id="L91">        return ReportResponse.builder()</span>
+<span class="fc" id="L92">                .assignmentId(assignmentId)</span>
+<span class="fc" id="L93">                .assignmentTitle(assignment.getTitle())</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">                .dueDate(assignment.getDueDate() != null ? assignment.getDueDate().toString() : null)</span>
+<span class="fc" id="L95">                .status(assignment.getStatus())</span>
+<span class="fc" id="L96">                .totalStudents((long) submissions.size())</span>
+<span class="fc" id="L97">                .submittedCount(submittedCount)</span>
+<span class="fc" id="L98">                .pendingCount(pendingCount)</span>
+<span class="fc" id="L99">                .gradedCount(gradedCount)</span>
+<span class="fc" id="L100">                .averageScore(averageScore)</span>
+<span class="fc" id="L101">                .highestScore(highestScore)</span>
+<span class="fc" id="L102">                .lowestScore(finalLowestScore)</span>
+<span class="fc" id="L103">                .passCount(passCount)</span>
+<span class="fc" id="L104">                .failCount(failCount)</span>
+<span class="fc" id="L105">                .submissions(submissionResponses)</span>
+<span class="fc" id="L106">                .build();</span>
+    }
+
+    @Override
+    public List&lt;ReportResponse&gt; getCourseReport(String courseId) {
+<span class="fc" id="L111">        return assignmentRepository.findByCourseId(courseId).stream()</span>
+<span class="fc" id="L112">                .map(a -&gt; getAssignmentReport(a.getAssignmentId()))</span>
+<span class="fc" id="L113">                .collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public byte[] exportReportAsCsv(String assignmentId) {
+<span class="fc" id="L118">        ReportResponse report = getAssignmentReport(assignmentId);</span>
+<span class="fc" id="L119">        StringBuilder csv = new StringBuilder();</span>
+<span class="fc" id="L120">        csv.append(&quot;SubmissionId,StudentId,Status,ObtainedMarks,ResultStatus,SubmittedAt\n&quot;);</span>
+<span class="fc" id="L121">        report.getSubmissions().forEach(s -&gt;</span>
+<span class="fc" id="L122">                csv.append(s.getId()).append(&quot;,&quot;)</span>
+<span class="fc" id="L123">                        .append(s.getStudentId()).append(&quot;,&quot;)</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">                        .append(s.getStatus() != null ? s.getStatus().name() : &quot;&quot;).append(&quot;,&quot;)</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">                        .append(s.getObtainedMarks() != null ? s.getObtainedMarks() : &quot;&quot;).append(&quot;,&quot;)</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">                        .append(s.getResultStatus() != null ? s.getResultStatus().name() : &quot;&quot;).append(&quot;,&quot;)</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">                        .append(s.getSubmittedAt() != null ? s.getSubmittedAt() : &quot;&quot;).append(&quot;\n&quot;)</span>
+        );
+<span class="fc" id="L129">        return csv.toString().getBytes(StandardCharsets.UTF_8);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
